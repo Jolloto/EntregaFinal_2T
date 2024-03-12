@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private bool isGameOver;
     private Vector3 initialPosition;
 
+    private UI_MANAGER uiManager;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -33,11 +35,22 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        uiManager = FindObjectOfType<UI_MANAGER>();
+        uiManager.HideGameOverPanel();
+        uiManager.ShowMenuPanel();
+        uiManager.HidePausaPanel();
         spawn = FindObjectOfType<SpawnManager>();
         HideAllPowerupIndicators();
     }
 
-    private void Update()
+    public void StartGame()
+    {
+        
+        uiManager.HidePausaPanel();
+
+    }
+
+        private void Update()
     {
         if (isGameOver)
         {
