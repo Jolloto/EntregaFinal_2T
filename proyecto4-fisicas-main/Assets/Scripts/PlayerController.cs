@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private UI_MANAGER uiManager;
 
+    private bool isPausa = false;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -37,17 +40,38 @@ public class PlayerController : MonoBehaviour
     {
         uiManager = FindObjectOfType<UI_MANAGER>();
         uiManager.HideGameOverPanel();
-        uiManager.ShowMenuPanel();
+        uiManager.HideControlsPanel();
         uiManager.HidePausaPanel();
+        uiManager.ShowMenuPanel();
+
         spawn = FindObjectOfType<SpawnManager>();
         HideAllPowerupIndicators();
     }
 
     public void StartGame()
     {
-        
+        SceneManager.LoadScene("Play");
+        uiManager.HideControlsPanel();
         uiManager.HidePausaPanel();
+        uiManager.HideMenuPanel();
+    }
 
+    public void Pausa()
+    {
+        Time.timeScale = 0f;
+        uiManager.ShowPausaPanel();
+    }
+
+    public void Controls()
+    {
+        Time.timeScale = 0f;
+        uiManager.ShowControlsPanel();
+    }
+
+     public void Resume()
+    {
+        Time.timeScale = 1f;
+        uiManager.HidePausaPanel();
     }
 
         private void Update()
@@ -66,6 +90,7 @@ public class PlayerController : MonoBehaviour
             {
                 //GAME OVER
                 isGameOver = true;
+                uiManager.ShowGameOverPanel(lives);
             }
             else
             {
@@ -73,6 +98,20 @@ public class PlayerController : MonoBehaviour
                 transform.position = initialPosition;
                 playerRigidbody.velocity = Vector3.zero;
                 StartCoroutine(InvulnerabilityCountdown());
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPausa = !isPausa;
+
+            if (isPausa)
+            {
+                Pausa();
+            }
+            else
+            {
+                Resume();
             }
         }
     }
@@ -156,4 +195,9 @@ public class PlayerController : MonoBehaviour
     {
         return isGameOver;
     }
+
+     public void RestartGameScene()
+     {
+          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+     }
 }
