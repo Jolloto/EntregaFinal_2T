@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
@@ -17,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject[] powerupIndicators;
 
-    private int currentRound = 1;
     private int lives;
     private float lowerLimit = -3f;
     private bool isGameOver;
@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour
         uiManager.HideMenuPanel();
     }
 
+    void SomeMethod()
+    {
+        GameController.instance.UpdateRoundText();
+    }
+
     public void Pausa()
     {
         Time.timeScale = 0f;
@@ -70,12 +75,6 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale = 0f;
         uiManager.ShowMenuPanel();
-    }
-
-    public void AdvanceToNextRound(int currentRound)
-    {
-        currentRound++;
-        uiManager.UpdateRoundText(currentRound);
     }
 
         private void Update()

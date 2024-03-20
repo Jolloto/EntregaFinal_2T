@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 
 
+
 public class UI_MANAGER : MonoBehaviour
 {
     [SerializeField] private GameObject GameOverPanel;
@@ -18,8 +19,9 @@ public class UI_MANAGER : MonoBehaviour
 
     [SerializeField] private int currentRound = 1;
 
-    [SerializeField] private TextMeshProUGUI roundText;
-
+    [SerializeField] public TextMeshProUGUI roundText;
+    
+    public static GameController instance;
 
     private PlayerController playerControllerScript;
 
@@ -30,8 +32,25 @@ public class UI_MANAGER : MonoBehaviour
 
         playButton.onClick.AddListener(() => {playerControllerScript.StartGame();});
 
-        UpdateRoundText();
+        UpdateRoundText(currentRound);
 
+    }
+
+    void Awake()
+    {
+        instance = this;
+        UpdateRoundText();
+    }
+
+    public void AdvanceToNextRound()
+    {
+        currentRound++;
+        UpdateRoundText();
+    }
+
+    public void UpdateRoundText()
+    {
+        roundText.text = "Ronda " + currentRound;
     }
 
     public void ShowMenuPanel()
@@ -62,11 +81,6 @@ public class UI_MANAGER : MonoBehaviour
     public void HideGameOverPanel()
     {
         GameOverPanel.SetActive(false);
-    }
-
-    void UpdateRoundText(int currentRound)
-    {
-        roundText.text = $"Ronda:  + {currentRound}";
     }
 
 }
