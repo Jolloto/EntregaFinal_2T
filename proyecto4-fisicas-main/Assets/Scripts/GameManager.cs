@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     {
         uiManager = FindObjectOfType<UI_MANAGER>();
         uiManager.HideGameOverPanel();
-        uiManager.HideControlsPanel();
         uiManager.HidePausaPanel();
         uiManager.ShowMenuPanel();
     }
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
     {
         uiManager.HideMenuPanel();
         uiManager.HidePausaPanel();
-        uiManager.HideControlsPanel();
     }
 
     

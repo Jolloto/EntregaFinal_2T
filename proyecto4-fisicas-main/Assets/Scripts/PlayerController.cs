@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject[] powerupIndicators;
 
+    private int currentRound = 1;
     private int lives;
     private float lowerLimit = -3f;
     private bool isGameOver;
@@ -40,7 +41,6 @@ public class PlayerController : MonoBehaviour
     {
         uiManager = FindObjectOfType<UI_MANAGER>();
         uiManager.HideGameOverPanel();
-        uiManager.HideControlsPanel();
         uiManager.HidePausaPanel();
         uiManager.ShowMenuPanel();
 
@@ -50,8 +50,6 @@ public class PlayerController : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Play");
-        uiManager.HideControlsPanel();
         uiManager.HidePausaPanel();
         uiManager.HideMenuPanel();
     }
@@ -62,16 +60,22 @@ public class PlayerController : MonoBehaviour
         uiManager.ShowPausaPanel();
     }
 
-    public void Controls()
-    {
-        Time.timeScale = 0f;
-        uiManager.ShowControlsPanel();
-    }
-
      public void Resume()
     {
         Time.timeScale = 1f;
         uiManager.HidePausaPanel();
+    }
+
+    public void Menu()
+    {
+        Time.timeScale = 0f;
+        uiManager.ShowMenuPanel();
+    }
+
+    public void AdvanceToNextRound(int currentRound)
+    {
+        currentRound++;
+        uiManager.UpdateRoundText(currentRound);
     }
 
         private void Update()
