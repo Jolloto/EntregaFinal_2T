@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private bool isPausa = false;
 
+    private int Niveles;
+
+    public TextMeshProUGUI Nivelestext;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -46,18 +51,19 @@ public class PlayerController : MonoBehaviour
 
         spawn = FindObjectOfType<SpawnManager>();
         HideAllPowerupIndicators();
+
+        Niveles = 0;  
     }
+
+    
 
     public void StartGame()
     {
-        uiManager.HidePausaPanel();
         uiManager.HideMenuPanel();
+        uiManager.HidePausaPanel();
+        
     }
 
-    void SomeMethod()
-    {
-        GameController.instance.UpdateRoundText();
-    }
 
     public void Pausa()
     {
@@ -73,7 +79,6 @@ public class PlayerController : MonoBehaviour
 
     public void Menu()
     {
-        Time.timeScale = 0f;
         uiManager.ShowMenuPanel();
     }
 
@@ -89,11 +94,13 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < lowerLimit)
         {
             lives--;
+            Nivelestext.text = "Nivel" + (Niveles + 1);
             if (lives <= 0)
             {
                 //GAME OVER
                 isGameOver = true;
                 uiManager.ShowGameOverPanel(lives);
+                Time.timeScale = 0f;
             }
             else
             {
@@ -101,7 +108,10 @@ public class PlayerController : MonoBehaviour
                 transform.position = initialPosition;
                 playerRigidbody.velocity = Vector3.zero;
                 StartCoroutine(InvulnerabilityCountdown());
+                Nivelestext.text = "Nivel" + Niveles++;
             }
+
+            
         }
 
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -201,6 +211,7 @@ public class PlayerController : MonoBehaviour
 
      public void RestartGameScene()
      {
-          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-     }
+        SceneManager.LoadScene(0);
+        Time.timeScale = 0f;
+    }
 }

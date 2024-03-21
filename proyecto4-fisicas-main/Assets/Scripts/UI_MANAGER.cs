@@ -15,13 +15,11 @@ public class UI_MANAGER : MonoBehaviour
 
     [SerializeField] private Button playButton;
 
+    [SerializeField] private Button mainmenuButton;
+
+    [SerializeField] private Button continueButton;
+
     [SerializeField] private GameObject PausaPanel;
-
-    [SerializeField] private int currentRound = 1;
-
-    [SerializeField] public TextMeshProUGUI roundText;
-    
-    public static GameController instance;
 
     private PlayerController playerControllerScript;
 
@@ -32,35 +30,21 @@ public class UI_MANAGER : MonoBehaviour
 
         playButton.onClick.AddListener(() => {playerControllerScript.StartGame();});
 
-        UpdateRoundText(currentRound);
+        mainmenuButton.onClick.AddListener(() => {playerControllerScript.Menu();});
 
-    }
-
-    void Awake()
-    {
-        instance = this;
-        UpdateRoundText();
-    }
-
-    public void AdvanceToNextRound()
-    {
-        currentRound++;
-        UpdateRoundText();
-    }
-
-    public void UpdateRoundText()
-    {
-        roundText.text = "Ronda " + currentRound;
+        continueButton.onClick.AddListener(() => {playerControllerScript.RestartGameScene();});
     }
 
     public void ShowMenuPanel()
     {
         MenuPanel.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void HideMenuPanel()
     {
         MenuPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     public void ShowPausaPanel()
