@@ -79,7 +79,10 @@ public class PlayerController : MonoBehaviour
 
     public void Menu()
     {
+        Time.timeScale = 0f;
+        uiManager.HideGameOverPanel();
         uiManager.ShowMenuPanel();
+        
     }
 
         private void Update()
@@ -94,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < lowerLimit)
         {
             lives--;
-            Nivelestext.text = "Nivel" + (Niveles + 1);
+            Nivelestext.text = "Nivel" + (Niveles += 1);
             if (lives <= 0)
             {
                 //GAME OVER
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
                 transform.position = initialPosition;
                 playerRigidbody.velocity = Vector3.zero;
                 StartCoroutine(InvulnerabilityCountdown());
-                Nivelestext.text = "Nivel" + Niveles++;
+                Nivelestext.text = "Nivel: " + Niveles++;
             }
 
             
@@ -213,5 +216,5 @@ public class PlayerController : MonoBehaviour
      {
         SceneManager.LoadScene(0);
         Time.timeScale = 0f;
-    }
+      }
 }
